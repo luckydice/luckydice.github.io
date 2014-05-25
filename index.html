@@ -952,18 +952,18 @@ posArr = [
 
 	function checkChanged() {
 		
-		console.log('checking changed!');
+		//console.log('checking changed!');
 		
-		$.get('https://blockchain.info/q/getreceivedbyaddress/'+addr_in+'?cors=true', function(data) {
+		//$.get('https://blockchain.info/q/getreceivedbyaddress/'+addr_in+'?cors=true', function(data) {
 			
-			if(window.pingVal != data) {
+		//	if(window.pingVal != data) {
 				
-				console.log('changed!');
+		//		console.log('changed!');
 		
-				window.pingVal = data;
+		//		window.pingVal = data;
 				updateFromG();
-			}
-		});
+		//	}
+		//});
 	}
 	
 
