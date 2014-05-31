@@ -6,6 +6,14 @@
 <meta name="description" content="Play Poker Dice Slots Online, bet online with bitcoin, gamble, win, plus satoshidice, dodgecoin"> 
 <meta name="keywords" content="bitcoin,poker,poker dice,poker slots,btc,poker for bitcoin,bet,satoshi dice,gamble,win,satoshidice,dodgecoin,coin,play online">
 <style>
+
+.win_22, .win_FH, .win_ST, .win_3K, .win_4K, .win_5K {
+	-webkit-box-shadow: inset 0px 0px 20px 20px rgba(100,200,100,0.2);
+	-moz-box-shadow: inset 0px 0px 20px 20px rgba(100,200,100,0.2);
+	box-shadow: inset 0px 0px 20px 20px rgba(100,200,100,0.2);
+}
+
+
 body {
 	font-family:verdana,arial;
 	padding:20px;
@@ -867,12 +875,126 @@ posArr = [
 			  }
 			  
 			value = '000000'+h.toString();
-			  
-			a.stop(5-parseInt(value.charAt(value.length-5)));
-			b.stop(5-parseInt(value.charAt(value.length-4)));
-			c.stop(5-parseInt(value.charAt(value.length-3)));
-			d.stop(5-parseInt(value.charAt(value.length-2)));
-			e.stop(5-parseInt(value.charAt(value.length-1)));
+			
+			var h = {"22":["11223","11224","11225","11226","11233","11334","11335","11336","11244","11344","11445","11446","11255","11355","11455","11556","11266","11366","11466","11566","11223","11224","11225","11226","12233","22334","22335","22336","12244","22344","22445","22446","12255","22355","22455","22556","12266","22366","22466","22566","11233","11334","11335","11336","12233","22334","22335","22336","13344","23344","33445","33446","13355","23355","33455","33556","13366","23366","33466","33566","11244","11344","11445","11446","12244","22344","22445","22446","13344","23344","33445","33446","14455","24455","34455","44556","14466","24466","34466","44566","11255","11355","11455","11556","12255","22355","22455","22556","13355","23355","33455","33556","14455","24455","34455","44556","15566","25566","35566","45566","11266","11366","11466","11566","12266","22366","22466","22566","13366","23366","33466","33566","14466","24466","34466","44566","15566","25566","35566","45566"],"3K":["111","222","333","444","555","666"],"FH":["11222","11333","11444","11555","11666","11122","22333","22444","22555","22666","11133","22233","33444","33555","33666","11144","22244","33344","44555","44666","11155","22255","33355","44455","55666","11166","22266","33366","44466","55566"],"ST":["12345","23456"],"4K":["1111","2222","3333","4444","5555","6666"],"5K":["11111","22222","33333","44444","55555","66666"]};
+			
+
+function contains(a, obj) {
+  
+  var i = a.length;
+  
+  while (i--) {
+    
+    if (a[i] === obj) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function contains_str(a, obj) {
+  
+  var i = a.length;
+  
+  while (i--) {
+    
+    if (obj.indexOf(a[i]) !== -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function shuffle(array) {
+  var currentIndex = array.length
+    , temporaryValue
+    , randomIndex
+    ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+  
+  var ds = [6-parseInt(value.charAt(value.length-5)), 6-parseInt(value.charAt(value.length-4)), 6-parseInt(value.charAt(value.length-3)), 6-parseInt(value.charAt(value.length-2)), 6-parseInt(value.charAt(value.length-1))];
+  var v = ds.reverse().join('');
+  
+  //console.log(ds, v);
+  
+var itsa = {'type':'', 'mult':0};
+
+	if(contains(h['5K'], v)) {
+    
+    itsa =  {'type':'5K', 'mult':ds[0]*5};
+    
+  } else if(contains_str(h['4K'], v)) {
+    
+    itsa =  {'type':'4K', 'mult':4};
+    
+  } else if(contains(h['ST'], v)) {
+    
+    itsa =  {'type':'ST', 'mult':3};
+    
+  } else if(contains(h['FH'], v)) {
+    
+    itsa =  {'type':'FH', 'mult':3};
+    
+  } else if(contains_str(h['3K'], v)) {
+    
+    itsa =  {'type':'3K', 'mult':2};
+    
+  } else if(contains(h['22'], v)) {
+    
+    itsa =  {'type':'22', 'mult':1.5};
+  }
+  
+  //console.log(itsa);
+  
+  if(itsa.type == '') {
+	  
+	  ds = shuffle(ds);
+	  
+  } else {
+	  
+	  var cl = 'win_'+itsa.type;
+	  
+	  $(a.el).addClass(cl);
+	  $(b.el).addClass(cl);
+	  $(c.el).addClass(cl);
+	  $(d.el).addClass(cl);
+	  $(e.el).addClass(cl);
+	  
+	  var winstr = '';
+	  
+	  switch(itsa.type) {
+		  case '22': winstr = 'Two pairs - '+itsa.mult+'x'; break;
+		  case '3K': winstr = 'Three of a Kind - '+itsa.mult+'x'; break;
+		  case 'FH': winstr = 'Full House - '+itsa.mult+'x'; break;
+		  case 'ST': winstr = 'Straight - '+itsa.mult+'x'; break;
+		  case '4K': winstr = 'Four of a Kind - '+itsa.mult+'x'; break;
+		  case '5K': winstr = 'Five of a Kind - '+itsa.mult+'x'; break;
+	  }
+	  
+	  $(a.el).parent().append('<div>Win! '+winstr+'</div>');
+  }
+  
+			a.stop(ds[0]-1);
+			b.stop(ds[1]-1);
+			c.stop(ds[2]-1);
+			d.stop(ds[3]-1);
+			e.stop(ds[4]-1);
 			
 			a = b = c = d = e = null;
 		};
@@ -889,7 +1011,7 @@ posArr = [
 				if(item) {
 					
 					createAndStop(item.addr, item.val);
-		  			console.log(item);
+		  			//console.log(item);
 				}
 				
             }, 2500);
@@ -1018,7 +1140,8 @@ window.existingItems = {};
 	
 	function updateFromG() {
 		
-		$(document.createElement('SCRIPT')).attr('src', 'https://gist.github.com/d62c5df62b4245390ddf.js').insertAfter($(document.body).last());
+		$(document.createElement('SCRIPT')).attr('src', 'https://gist.github.com/7646b68cdac74004acfb485dd4744574/d62c5df62b4245390ddf.js').insertAfter($(document.body).last());
+
 	}
 
 	checkChanged();
@@ -1031,13 +1154,13 @@ window.existingItems = {};
 		
 		$(ws).bind('open', function(e) {
 			
-			console.log('open');
+			//console.log('open');
 			
 			ws.send('{"op":"addr_sub", "addr":"'+addr_in+'"}');
 			
 		}).bind('message', function(e){
 			
-			console.log('message');
+			//console.log('message');
 			
 			intensePolling = true;
 			checkChanged();
@@ -1052,7 +1175,7 @@ window.existingItems = {};
 	// set up polling..
 	setInterval(function() {
 		
-		console.log('poll interval');
+		//console.log('poll interval');
 				
 		if(!WebSocket && Math.floor(Math.random()*2) != 0) return;
 		if(!intensePolling && Math.floor(Math.random()*12) != 0) return;
@@ -1149,7 +1272,7 @@ $('#verihash').attr('href', '#'+verihash).text(verihash);
     
       <b>How do I know it's fair??</b><br />
   <br /><div style="text-align:justify;">
-  At the begining of every week, all the rolls that will be played for the whole week are randomly pre-calculated and written to a text file. The text in the text file is kept secret for the rest of the week, but the hash is publicly published (and this weeks hash is <a href="" id="verihash">...</a>.) Bets are processed in the order they come in, and assigned a sequential number (which is visible in comments made for winning hands.) At the end of the week, the text from the text file is published, and everyone can see the order of rolls. The public hash is proof that the order and value of bets in the text file has not been modified since the wager was made (the smallest of changes to the text file would result in a completely differnt hash value.) By inspecting the block chain it can be seen the rolls correspond correctly to those presented in the text file. This proves beyond doubt that the bets are fair.<br />
+  At the beginning of every week, all the rolls that will be played for the whole week are randomly pre-calculated and written to a text file. The text in the text file is kept secret for the rest of the week, but the hash is publicly published (and this weeks hash is <a href="" id="verihash">...</a>.) Bets are processed in the order they come in, and assigned a sequential number (which is visible in comments made for winning hands.) At the end of the week, the text from the text file is published, and everyone can see the order of rolls. The public hash is proof that the order and value of bets in the text file has not been modified since the wager was made (the smallest of changes to the text file would result in a completely different hash value.) By inspecting the block chain it can be seen the rolls correspond correctly to those presented in the text file. This proves beyond doubt that the bets are fair.<br />
         </div>
     </div>
 	</div>
